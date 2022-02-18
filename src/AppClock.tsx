@@ -13,9 +13,5 @@ export function AppClock() {
     };
   }, []);
 
-  return (
-    <div>
-      <Clock size={300} value={value} />
-    </div>
-  );
+  return <Clock size={300} value={value} />;
 }
