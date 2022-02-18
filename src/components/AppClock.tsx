@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import useInterval from "react-use/lib/useInterval";
 import Clock from "react-clock";
-import { chrono } from "./utils/chrono";
-import { useSettings } from "./context/settings";
+import { chrono } from "../utils/chrono";
+import { useSettings } from "../context/settings";
 import { startOfToday, addHours } from "date-fns";
 import "react-clock/dist/Clock.css";
 

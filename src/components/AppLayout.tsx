@@ -9,14 +9,18 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FC, useState } from "react";
+import { ReactNode, VFC } from "react";
 import { SettingsModal } from "./SettingsModal";
-import { auth } from "./firebase";
+import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 
 import { useSignInWithGoogle, useAuthState } from "react-firebase-hooks/auth";
 
-export const AppLayout: FC = ({ children }) => {
+type AppLayoutProps = {
+  children: ReactNode;
+};
+
+export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [user] = useAuthState(auth);
   const [signInWithGoogle] = useSignInWithGoogle(auth);

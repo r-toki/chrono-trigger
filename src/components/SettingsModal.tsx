@@ -11,10 +11,9 @@ import {
   ModalOverlay,
   Stack,
 } from "@chakra-ui/react";
-import { FormEventHandler, useState, VFC } from "react";
-import useLocalStorage from "react-use/lib/useLocalStorage";
-import { useSettings } from "./context/settings";
-import { useTextInput } from "./hooks/useTextInput";
+import { FormEventHandler, VFC } from "react";
+import { useSettings } from "../context/settings";
+import { useTextInput } from "../hooks/useTextInput";
 
 type SettingsModalProps = {
   isOpen: boolean;

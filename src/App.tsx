@@ -1,5 +1,5 @@
-import { AppClock } from "./AppClock";
-import { AppLayout } from "./AppLayout";
+import { AppClock } from "./components/AppClock";
+import { AppLayout } from "./components/AppLayout";
 import { SettingsProvider } from "./context/settings";
 
 function App() {

@@ -1,4 +1,4 @@
-import { useLocalStorage } from "react-use";
+import useLocalStorage from "react-use/lib/useLocalStorage";
 import { Dispatch, SetStateAction } from "react";
 import { createContainer } from "unstated-next";
 
