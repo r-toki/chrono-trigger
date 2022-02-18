@@ -1,9 +1,11 @@
 クロノ・トリガー（CT）
 
 - [x] firebase 作成
-- [x] vue3 vite
+- [x] react vite
 - [x] hosting にあげる
 - [ ] トップ画面に時計を表示（現在時刻）
+  - react-clock
+    - https://projects.wojtekmaj.pl/react-clock/
 - [ ] 設定の追加
   - [ ] Google ログイン
   - [ ] 業務時間の設定（開始終了）
