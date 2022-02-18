@@ -9,11 +9,12 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ReactNode, VFC } from "react";
+import { ReactNode, useEffect, useState, VFC } from "react";
 import { SettingsModal } from "./SettingsModal";
 import { auth } from "../firebaseApp";
-
 import { useSignInWithGoogle, useAuthState } from "react-firebase-hooks/auth";
+import { startOfToday, endOfToday, format } from "date-fns";
+import { zonedTimeToUtc } from "date-fns-tz";
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -23,6 +24,58 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [user] = useAuthState(auth);
   const [signInWithGoogle] = useSignInWithGoogle(auth);
+
+  const [calendarEvents, setCalendarEvents] = useState<{ summary: string; startTime: Date }[]>([]);
+
+  const getEvents = () => {
+    window.gapi.auth2
+      .getAuthInstance()
+      .signIn()
+      .then(() => {
+        loadEvents();
+      });
+  };
+  const loadEvents = () => {
+    window.gapi.load("client", () => {
+      window.gapi.client.setApiKey(import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY);
+      window.gapi.client.load("calendar", "v3", () => {
+        window.gapi.client.calendar.events
+          .list({
+            calendarId: "primary",
+            maxResults: 20,
+            singleEvents: true,
+            orderBy: "startTime",
+            timeMin: zonedTimeToUtc(startOfToday(), "Asia/Tokyo").toISOString(),
+            timeMax: zonedTimeToUtc(endOfToday(), "Asia/Tokyo").toISOString(),
+          })
+          .then((res) => {
+            console.log(res.result.items);
+            setCalendarEvents(
+              res.result.items.map((e) => ({
+                summary: e.summary,
+                startTime: new Date(e.start.dateTime),
+              }))
+            );
+          })
+          .catch((e) => console.log(e));
+      });
+    });
+  };
+  const initEvent = () => {
+    console.log(import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY);
+    window.gapi.client.init({
+      clientId: import.meta.env.VITE_GOOGLE_CALENDAR_CLIENT_ID,
+      apiKey: import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY,
+      scope: "https://www.googleapis.com/auth/calendar.events",
+      discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
+    });
+  };
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://apis.google.com/js/client.js";
+    document.body.appendChild(script);
+    window.setTimeout(() => initEvent(), 500);
+  }, []);
 
   return (
     <Stack h="100vh">
@@ -41,15 +94,20 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
               </Box>
             </Heading>
             {user ? (
-              <Button onClick={onOpen} colorScheme="primary">
-                時を操る
-              </Button>
+              <HStack>
+                <Button onClick={onOpen} colorScheme="primary">
+                  時を操る
+                </Button>
+                <Button onClick={() => getEvents()} colorScheme="primary">
+                  予定を取り込む
+                </Button>
+              </HStack>
             ) : (
               <HStack>
                 <Button onClick={onOpen} colorScheme="primary">
                   時を操る
                 </Button>
-                <Button onClick={() => signInWithGoogle()} colorScheme="primary">
+                <Button onClick={() => getEvents()} colorScheme="primary">
                   予定を取り込む
                 </Button>
               </HStack>
@@ -58,6 +116,17 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
         </Container>
       </Box>
       <Center>{children}</Center>
+      <Center>
+        <Stack>
+          {calendarEvents.map((item) => {
+            return (
+              <div>
+                {item.summary}:{format(item.startTime, "yyyy/MM/dd HH:mm")}
+              </div>
+            );
+          })}
+        </Stack>
+      </Center>
       <SettingsModal isOpen={isOpen} onClose={onClose} />
     </Stack>
   );
