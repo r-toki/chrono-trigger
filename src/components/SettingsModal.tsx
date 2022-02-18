@@ -42,7 +42,7 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
   const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if (!validate()) {
-      toast({ title: "流石に難しいよ！", status: "error", position: "top-right" });
+      toast({ title: "その時は越えられません！", status: "error", position: "top-right" });
       return;
     }
     setSetting({
