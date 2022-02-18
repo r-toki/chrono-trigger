@@ -10,10 +10,13 @@ export function AppClock() {
   const { settings } = useSettings();
 
   const startDate = useMemo(
-    () => addHours(startOfToday(), Number(settings)),
+    () => addHours(startOfToday(), Number(settings.startAtHour)),
     [settings.startAtHour]
   );
-  const endDate = useMemo(() => addHours(startOfToday(), Number(settings)), [settings.endAtHour]);
+  const endDate = useMemo(
+    () => addHours(startOfToday(), Number(settings.endAtHour)),
+    [settings.endAtHour]
+  );
   const hoursToGenerate = useMemo(
     () => Number(settings.hoursToGenerate),
     [settings.hoursToGenerate]
