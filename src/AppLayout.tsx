@@ -1,17 +1,10 @@
-import {
-  Box,
-  Button,
-  Center,
-  Container,
-  Flex,
-  Heading,
-  HStack,
-  Stack,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Container, Flex, Heading, HStack, Stack, useDisclosure } from "@chakra-ui/react";
 import { FC, useState } from "react";
+import { SettingsModal } from "./SettingsModal";
 
 export const AppLayout: FC = ({ children }) => {
   const [uid, setUid] = useState("");
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Stack>
@@ -21,12 +14,12 @@ export const AppLayout: FC = ({ children }) => {
             <Heading>Chrono Trigger</Heading>
             {uid ? (
               <HStack>
-                <Button>Settings</Button>
+                <Button onClick={onOpen}>Settings</Button>
                 <Button onClick={() => setUid("")}>Logout</Button>
               </HStack>
             ) : (
               <HStack>
-                <Button>Settings</Button>
+                <Button onClick={onOpen}>Settings</Button>
                 <Button onClick={() => setUid("1")}>Login</Button>
               </HStack>
             )}
@@ -34,6 +27,7 @@ export const AppLayout: FC = ({ children }) => {
         </Container>
       </Box>
       <Center>{children}</Center>
+      <SettingsModal isOpen={isOpen} onClose={onClose} />
     </Stack>
   );
 };
