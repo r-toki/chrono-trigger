@@ -1,15 +1,12 @@
+import { Center } from "@chakra-ui/react";
 import { AppClock } from "./AppClock";
+import { AppLayout } from "./AppLayout";
 
 function App() {
   return (
-    <div
-      style={{
-        width: "max-content",
-        margin: "0 auto",
-      }}
-    >
+    <AppLayout>
       <AppClock />
-    </div>
+    </AppLayout>
   );
 }
 
