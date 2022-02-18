@@ -12,7 +12,6 @@ import {
 import { ReactNode, VFC } from "react";
 import { SettingsModal } from "./SettingsModal";
 import { auth } from "../firebaseApp";
-import { signOut } from "firebase/auth";
 
 import { useSignInWithGoogle, useAuthState } from "react-firebase-hooks/auth";
 
@@ -30,23 +29,29 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
       <Box h="16" borderBottomWidth="1px" boxShadow="sm">
         <Container w="container.lg" maxW="container.lg" h="full">
           <Flex h="full" justifyContent="space-between" alignItems="center">
-            <Heading>Chrono Trigger</Heading>
+            <Heading>
+              <Box as="span" bgGradient="linear(to-r, yellow.700, yellow.800)" bgClip="text">
+                CH
+              </Box>
+              <Box as="span" bgGradient="linear(to-r, red.700, red.900)" bgClip="text">
+                RONO HACK
+              </Box>
+              <Box as="span" bgGradient="linear(to-r, red.900, black)" bgClip="text">
+                ER
+              </Box>
+            </Heading>
             {user ? (
-              <HStack>
-                <Button onClick={onOpen}>設定</Button>
-                <div>{user.email}</div>
-                <Button
-                  onClick={async () => {
-                    await signOut(auth);
-                  }}
-                >
-                  Logout
-                </Button>
-              </HStack>
+              <Button onClick={onOpen} colorScheme="primary">
+                時を操る
+              </Button>
             ) : (
               <HStack>
-                <Button onClick={onOpen}>設定</Button>
-                <Button onClick={() => signInWithGoogle()}>Login</Button>
+                <Button onClick={onOpen} colorScheme="primary">
+                  時を操る
+                </Button>
+                <Button onClick={() => signInWithGoogle()} colorScheme="primary">
+                  予定を取り込む
+                </Button>
               </HStack>
             )}
           </Flex>

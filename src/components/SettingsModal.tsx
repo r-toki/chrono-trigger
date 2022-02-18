@@ -65,20 +65,20 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
             <Stack spacing="4">
               <Stack>
                 <FormControl>
-                  <FormLabel>始業時間</FormLabel>
+                  <FormLabel>はじまりの時間</FormLabel>
                   <Input type="number" min="1" max="23" step="1" required {...startAtHourInput} />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>終業時間</FormLabel>
+                  <FormLabel>おわりの時間</FormLabel>
                   <Input type="number" min="1" max="23" step="1" required {...endAtHourInput} />
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel>生み出したい時間</FormLabel>
+                  <FormLabel>産み出したい時間</FormLabel>
                   <Input
                     type="number"
-                    min="1"
+                    min="0"
                     max="23"
                     step="1"
                     required
@@ -86,7 +86,7 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
                   />
                 </FormControl>
               </Stack>
-              <Button colorScheme="blue" type="submit">
+              <Button colorScheme="primary" type="submit">
                 トリガー！
               </Button>
             </Stack>
