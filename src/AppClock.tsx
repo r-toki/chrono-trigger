@@ -1,36 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { useInterval } from "react-use";
 import Clock from "react-clock";
-import { chrono } from "./chrono";
+import { chrono } from "./utils/chrono";
+import { useSettings } from "./context/settings";
+import { startOfToday, addHours } from "date-fns";
 import "react-clock/dist/Clock.css";
 
 export function AppClock() {
-  const [value, setValue] = useState(new Date());
+  const { settings } = useSettings();
 
-  useEffect(() => {
-    const chronoTime = chrono(new Date(2022, 2 - 1, 18, 18, 1), {
-      startDate: new Date(2022, 2 - 1, 18, 9, 0),
-      endDate: new Date(2022, 2 - 1, 18, 18, 0),
-      hoursToGenerate: 1,
+  const startDate = useMemo(() => addHours(startOfToday(), Number(settings.startAtHour)), []);
+  const endDate = useMemo(() => addHours(startOfToday(), Number(settings.endAtHour)), []);
+
+  const [value, setValue] = useState<Date>();
+
+  useInterval(() => {
+    const chronoDate = chrono(new Date(), {
+      startDate,
+      endDate,
+      hoursToGenerate: Number(settings.hoursToGenerate),
     });
-    console.log(chronoTime);
-  }, []);
+    setValue(chronoDate);
+  }, 1_000);
 
   return (
-    <div>
-      <Clock
-        hourHandWidth={10}
-        hourHandLength={60}
-        hourMarksWidth={9}
-        hourMarksLength={15}
-        minuteHandWidth={6}
-        minuteHandLength={90}
-        minuteMarksWidth={3}
-        secondHandLength={80}
-        secondHandWidth={4}
-        size={300}
-        value={value}
-      />
-    </div>
+    <>
+      {value ? (
+        <Clock
+          hourHandWidth={10}
+          hourHandLength={60}
+          hourMarksWidth={9}
+          hourMarksLength={15}
+          minuteHandWidth={6}
+          minuteHandLength={90}
+          minuteMarksWidth={3}
+          secondHandLength={80}
+          secondHandWidth={4}
+          size={300}
+          value={value}
+        />
+      ) : null}
+    </>
   );
 }

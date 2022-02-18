@@ -7,85 +7,66 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
-  ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Stack,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useLocalStorage } from "react-use";
+import { FormEventHandler, VFC } from "react";
+import { useSettings } from "./context/settings";
+import { useTextInput } from "./hooks/useTextInput";
 
-type SettingsState = {
-  startAt: string;
-  endAt: string;
-  produceHour: string;
-};
-const defaultSettingsValues = {
-  startAt: "9",
-  endAt: "18",
-  produceHour: "1",
-};
-type SettingsProps = {
+type SettingsModalProps = {
   isOpen: boolean;
   onClose: () => void;
 };
-export const SettingsModal = (props: SettingsProps) => {
-  const [value, setValue] = useLocalStorage<SettingsState>("ct-settings", defaultSettingsValues);
-  const [startAt, setStartAt] = useState(value?.startAt || "");
-  const [endAt, setEndAt] = useState(value?.endAt || "");
-  const [produceHour, setProduceHour] = useState(value?.produceHour || "");
+
+export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
+  const { settings, setSetting } = useSettings();
+
+  const [startAtHourInput] = useTextInput(settings.startAtHour);
+  const [endAtHourInput] = useTextInput(settings.endAtHour);
+  const [hoursToGenerateInput] = useTextInput(settings.hoursToGenerate);
+
+  const onSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+    e.preventDefault();
+    setSetting({
+      startAtHour: startAtHourInput.value,
+      endAtHour: endAtHourInput.value,
+      hoursToGenerate: hoursToGenerateInput.value,
+    });
+  };
 
   return (
-    <Modal isOpen={props.isOpen} onClose={props.onClose}>
+    <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Settings</ModalHeader>
+      <ModalContent pb="2">
+        <ModalHeader>設定</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <FormControl>
-            <FormLabel htmlFor="startAt">開始</FormLabel>
-            <Input
-              id="startAt"
-              value={startAt}
-              onChange={(v) => {
-                setStartAt(v.target.value);
-              }}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="endAt">終了</FormLabel>
-            <Input
-              id="endAt"
-              value={endAt}
-              onChange={(v) => {
-                setEndAt(v.target.value);
-              }}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="produceHour">生む</FormLabel>
-            <Input
-              id="produceHour"
-              value={produceHour}
-              onChange={(v) => {
-                setProduceHour(v.target.value);
-              }}
-            />
-          </FormControl>
-        </ModalBody>
+          <form onSubmit={onSubmit}>
+            <Stack spacing="4">
+              <Stack>
+                <FormControl>
+                  <FormLabel>始業時間</FormLabel>
+                  <Input {...startAtHourInput} />
+                </FormControl>
 
-        <ModalFooter>
-          <Button
-            colorScheme="blue"
-            mr={3}
-            onClick={() => {
-              console.log({ startAt, endAt, produceHour });
-              setValue({ startAt, endAt, produceHour });
-              props.onClose();
-            }}
-          >
-            Set
-          </Button>
-        </ModalFooter>
+                <FormControl>
+                  <FormLabel>終業時間</FormLabel>
+                  <Input {...endAtHourInput} />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel>生み出したい時間</FormLabel>
+                  <Input {...hoursToGenerateInput} />
+                </FormControl>
+              </Stack>
+              <Button colorScheme="blue" type="submit">
+                トリガー！
+              </Button>
+            </Stack>
+          </form>
+        </ModalBody>
       </ModalContent>
     </Modal>
   );

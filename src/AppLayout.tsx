@@ -1,4 +1,14 @@
-import { Box, Button, Center, Container, Flex, Heading, HStack, Stack, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Container,
+  Flex,
+  Heading,
+  HStack,
+  Stack,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { SettingsModal } from "./SettingsModal";
 import { auth } from "./firebase";
@@ -19,8 +29,8 @@ export const AppLayout: FC = ({ children }) => {
             <Heading>Chrono Trigger</Heading>
             {user ? (
               <HStack>
-                <Button onClick={onOpen}>Settings</Button>
-                <div>{user.email}</div>{" "}
+                <Button onClick={onOpen}>設定</Button>
+                <div>{user.email}</div>
                 <Button
                   onClick={async () => {
                     await signOut(auth);
@@ -31,7 +41,7 @@ export const AppLayout: FC = ({ children }) => {
               </HStack>
             ) : (
               <HStack>
-                <Button onClick={onOpen}>Settings</Button>
+                <Button onClick={onOpen}>設定</Button>
                 <Button onClick={() => signInWithGoogle()}>Login</Button>
               </HStack>
             )}

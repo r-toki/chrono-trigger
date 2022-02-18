@@ -1,13 +1,14 @@
-import { useEffect } from "react";
 import { AppClock } from "./AppClock";
 import { AppLayout } from "./AppLayout";
-import { chrono } from "./chrono";
+import { SettingsProvider } from "./context/settings";
 
 function App() {
   return (
-    <AppLayout>
-      <AppClock />
-    </AppLayout>
+    <SettingsProvider>
+      <AppLayout>
+        <AppClock />
+      </AppLayout>
+    </SettingsProvider>
   );
 }
 
