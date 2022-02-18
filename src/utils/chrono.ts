@@ -1,4 +1,4 @@
-import { differenceInHours, endOfToday, isSameDay, startOfToday, sub } from "date-fns";
+import { addDays, nextDay, startOfDay } from "date-fns";
 
 const MS_PER_HOUR = 3_600 * 1_000;
 
@@ -12,33 +12,27 @@ export const chrono = (
   currentDate: Date,
   { startDate, endDate, hoursToGenerate }: ChronoConfig
 ) => {
-  if (!isSameDay(currentDate, startDate) || !isSameDay(currentDate, endDate)) throw new Error("");
-  if (hoursToGenerate - differenceInHours(endDate, startDate) > 0) throw new Error("");
+  const realCurrentTime = currentDate.getTime();
 
-  const currentTime = currentDate.getTime();
-  const startTime = startDate.getTime();
-  const endTime = endDate.getTime();
+  const realStartTime = startDate.getTime();
+  const realEndTime = endDate.getTime() - hoursToGenerate * MS_PER_HOUR;
+  const realTodayEndTime = startOfDay(addDays(currentDate, 1)).getTime();
 
-  const generateTime = hoursToGenerate * MS_PER_HOUR;
+  const chronoStartTime = startDate.getTime();
+  const chronoEndTime = endDate.getTime();
+  const chronoTodayEndTime = startOfDay(addDays(currentDate, 1)).getTime();
 
-  if (currentTime <= startTime) return new Date();
-
-  const realFullTimeByEnd = endTime - startTime;
-  const chronoFullTimeByEnd = realFullTimeByEnd - generateTime;
-  const ratio = realFullTimeByEnd / chronoFullTimeByEnd;
-  const realTimeFromStart = currentTime - startTime;
-  const chronoTimeFromStart = realTimeFromStart * ratio;
-
-  if (chronoTimeFromStart <= realFullTimeByEnd) {
-    return new Date(startTime + chronoTimeFromStart);
+  if (realCurrentTime < realStartTime) {
+    return currentDate;
+  } else if (realCurrentTime < realEndTime) {
+    const realTimeFromStart = realCurrentTime - realStartTime;
+    const chronoTimeFromStart =
+      (realTimeFromStart * (chronoEndTime - chronoStartTime)) / (realEndTime - realStartTime);
+    return new Date(chronoStartTime + chronoTimeFromStart);
   } else {
-    const realFullTimeByTodayEnd = endOfToday().getTime() - endTime - generateTime;
-    if (realFullTimeByTodayEnd < 0) {
-      return startOfToday();
-    }
-    const chronoFullTimeByTodayEnd = endOfToday().getTime() - endTime;
-    const ratio = realFullTimeByTodayEnd / chronoFullTimeByTodayEnd;
-    const chronoTimeFromEnd = (currentTime - (endTime - generateTime)) * ratio;
-    return new Date(endTime + chronoTimeFromEnd);
+    const realTimeFromEnd = realCurrentTime - realEndTime;
+    const chronoTimeFromEnd =
+      (realTimeFromEnd * (chronoTodayEndTime - chronoEndTime)) / (realTodayEndTime - realEndTime);
+    return new Date(chronoEndTime + chronoTimeFromEnd);
   }
 };

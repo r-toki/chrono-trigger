@@ -36,7 +36,6 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
     const hoursToGenerate = Number(hoursToGenerateInput.value);
     if (!(endAtHour > startAtHour)) return false;
     if (!(endAtHour - startAtHour > hoursToGenerate)) return false;
-    if (!(24 - endAtHour - hoursToGenerate > 0)) return false;
     return true;
   };
 
@@ -66,12 +65,12 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
               <Stack>
                 <FormControl>
                   <FormLabel>はじまりの時間</FormLabel>
-                  <Input type="number" min="1" max="23" step="1" required {...startAtHourInput} />
+                  <Input type="number" min="0" max="24" step="1" required {...startAtHourInput} />
                 </FormControl>
 
                 <FormControl>
                   <FormLabel>おわりの時間</FormLabel>
-                  <Input type="number" min="1" max="23" step="1" required {...endAtHourInput} />
+                  <Input type="number" min="0" max="24" step="1" required {...endAtHourInput} />
                 </FormControl>
 
                 <FormControl>
@@ -79,7 +78,7 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
                   <Input
                     type="number"
                     min="0"
-                    max="23"
+                    max="24"
                     step="1"
                     required
                     {...hoursToGenerateInput}

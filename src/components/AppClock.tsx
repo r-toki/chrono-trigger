@@ -53,7 +53,7 @@ export function AppClock() {
       hoursToGenerate,
     });
     setValue(chronoDate);
-  }, 500);
+  }, 10);
 
   return (
     <>
