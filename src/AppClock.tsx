@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from "react";
-import { useInterval } from "react-use";
+import React, { useEffect, useMemo, useState } from "react";
+import useInterval from "react-use/lib/useInterval";
 import Clock from "react-clock";
 import { chrono } from "./utils/chrono";
 import { useSettings } from "./context/settings";
