@@ -15,7 +15,19 @@ export function AppClock() {
 
   return (
     <div>
-      <Clock size={300} value={value} />
+      <Clock
+        hourHandWidth={10}
+        hourHandLength={60}
+        hourMarksWidth={9}
+        hourMarksLength={15}
+        minuteHandWidth={6}
+        minuteHandLength={90}
+        minuteMarksWidth={3}
+        secondHandLength={80}
+        secondHandWidth={4}
+        size={300}
+        value={value}
+      />
     </div>
   );
 }
