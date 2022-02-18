@@ -26,7 +26,7 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
   const [signInWithGoogle] = useSignInWithGoogle(auth);
 
   return (
-    <Stack>
+    <Stack h="100vh">
       <Box h="16" borderBottomWidth="1px" boxShadow="sm">
         <Container w="container.lg" maxW="container.lg" h="full">
           <Flex h="full" justifyContent="space-between" alignItems="center">
