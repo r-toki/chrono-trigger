@@ -21,7 +21,8 @@ export const chrono = (
   if (currentTime <= startTime) return new Date();
 
   const realTimeFromStartToEnd = endTime - startTime;
-  const ratio = realTimeFromStartToEnd / (realTimeFromStartToEnd - generateTime);
+  const chronoTimeFromStartToEnd = realTimeFromStartToEnd - generateTime;
+  const ratio = realTimeFromStartToEnd / chronoTimeFromStartToEnd;
   const realTimeFromStart = currentTime - startTime;
   const chronoTimeFromStart = realTimeFromStart * ratio;
 
