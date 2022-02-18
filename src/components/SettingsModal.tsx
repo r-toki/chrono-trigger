@@ -36,6 +36,7 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
     const hoursToGenerate = Number(hoursToGenerateInput.value);
     if (!(endAtHour > startAtHour)) return false;
     if (!(endAtHour - startAtHour > hoursToGenerate)) return false;
+    if (!(24 - endAtHour - hoursToGenerate > 0)) return false;
     return true;
   };
 
