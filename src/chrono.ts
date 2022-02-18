@@ -20,19 +20,19 @@ export const chrono = (
 
   if (currentTime <= startTime) return new Date();
 
-  const realTimeFromStartToEnd = endTime - startTime;
-  const chronoTimeFromStartToEnd = realTimeFromStartToEnd - generateTime;
-  const ratio = realTimeFromStartToEnd / chronoTimeFromStartToEnd;
+  const realFullTimeByEnd = endTime - startTime;
+  const chronoFullTime = realFullTimeByEnd - generateTime;
+  const ratio = realFullTimeByEnd / chronoFullTime;
   const realTimeFromStart = currentTime - startTime;
   const chronoTimeFromStart = realTimeFromStart * ratio;
 
-  if (chronoTimeFromStart <= realTimeFromStartToEnd) {
+  if (chronoTimeFromStart <= realFullTimeByEnd) {
     return new Date(startTime + chronoTimeFromStart);
   } else {
-    const realTimeFromEndToEndOfToday = endOfToday().getTime() - currentTime - generateTime;
-    const chronoTimeFromEndToEndOfToday = endOfToday().getTime() - endTime;
-    const ratio = chronoTimeFromEndToEndOfToday / realTimeFromEndToEndOfToday;
-    const chronoTimeFromEnd = realTimeFromEndToEndOfToday * ratio;
+    const realFullTimeByTodayEnd = endOfToday().getTime() - endTime - generateTime;
+    const chronoFullTimeByTodayEnd = endOfToday().getTime() - endTime;
+    const ratio = realFullTimeByTodayEnd / chronoFullTimeByTodayEnd;
+    const chronoTimeFromEnd = (currentTime - endTime) * ratio;
     return new Date(endTime + chronoTimeFromEnd);
   }
 };

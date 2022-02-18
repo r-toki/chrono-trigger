@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useInterval } from "react-use";
 import Clock from "react-clock";
+import { chrono } from "./chrono";
 import "react-clock/dist/Clock.css";
 
 export function AppClock() {
   const [value, setValue] = useState(new Date());
 
   useEffect(() => {
-    const interval = setInterval(() => setValue(new Date()), 1000);
-
-    return () => {
-      clearInterval(interval);
-    };
+    const chronoTime = chrono(new Date(2022, 2 - 1, 18, 18, 1), {
+      startDate: new Date(2022, 2 - 1, 18, 9, 0),
+      endDate: new Date(2022, 2 - 1, 18, 18, 0),
+      hoursToGenerate: 1,
+    });
+    console.log(chronoTime);
   }, []);
 
   return (
