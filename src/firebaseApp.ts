@@ -1,8 +1,7 @@
-// firebase.tsx
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-initializeApp({
+export const app = initializeApp({
   apiKey: "AIzaSyA-omvRZa7RkaSBcIL6lfLaL0D1xIrpXLc",
   authDomain: "chrono-trigger-tsukuaso-2.firebaseapp.com",
   projectId: "chrono-trigger-tsukuaso-2",
@@ -12,4 +11,4 @@ initializeApp({
   databaseURL: "https://chrono-trigger-tsukuaso-2.firebaseio.com",
 });
 
-export const auth = getAuth();
+export const auth = getAuth(app);

@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { ReactNode, VFC } from "react";
 import { SettingsModal } from "./SettingsModal";
-import { auth } from "../firebase";
+import { auth } from "../firebaseApp";
 import { signOut } from "firebase/auth";
 
 import { useSignInWithGoogle, useAuthState } from "react-firebase-hooks/auth";

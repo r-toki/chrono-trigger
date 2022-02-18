@@ -9,8 +9,15 @@ import "react-clock/dist/Clock.css";
 export function AppClock() {
   const { settings } = useSettings();
 
-  const startDate = useMemo(() => addHours(startOfToday(), Number(settings.startAtHour)), []);
-  const endDate = useMemo(() => addHours(startOfToday(), Number(settings.endAtHour)), []);
+  const startDate = useMemo(
+    () => addHours(startOfToday(), Number(settings)),
+    [settings.startAtHour]
+  );
+  const endDate = useMemo(() => addHours(startOfToday(), Number(settings)), [settings.endAtHour]);
+  const hoursToGenerate = useMemo(
+    () => Number(settings.hoursToGenerate),
+    [settings.hoursToGenerate]
+  );
 
   const [value, setValue] = useState<Date>();
 
@@ -18,7 +25,7 @@ export function AppClock() {
     const chronoDate = chrono(new Date(), {
       startDate,
       endDate,
-      hoursToGenerate: Number(settings.hoursToGenerate),
+      hoursToGenerate,
     });
     setValue(chronoDate);
   }, 1_000);
