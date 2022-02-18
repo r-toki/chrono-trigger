@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useInterval } from "react-use";
+import useInterval from "react-use/lib/useInterval";
 import Clock from "react-clock";
 import { chrono } from "./chrono";
 import "react-clock/dist/Clock.css";
