@@ -40,6 +40,7 @@ describe("start: 09:00, end: 18:00, generate: 1:00", () => {
     expect(subMinutes(chronoDate, MyDate.of("18:00"))).toBe(0);
   });
 
+  // NOTE: real: 17:00、chrono: 18:00 を超えてからは、chrono の進むスピードが遅くなる
   it("current: 17:30 ならば、chrono: 18:00 ~ 18:30", () => {
     const chronoDate = chrono(MyDate.of("17:30"), { startDate, endDate, hoursToGenerate });
 
