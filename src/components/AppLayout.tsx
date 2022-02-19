@@ -8,10 +8,12 @@ import {
   HStack,
   Stack,
   useDisclosure,
+  Image,
 } from "@chakra-ui/react";
 import { ReactNode, VFC } from "react";
 import { SettingsModal } from "./SettingsModal";
 import { auth } from "../firebaseApp";
+import logoUrl from "../assets/logo.png";
 
 import { useSignInWithGoogle, useAuthState } from "react-firebase-hooks/auth";
 
@@ -29,27 +31,36 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
       <Box h="16" borderBottomWidth="1px" boxShadow="sm">
         <Container w="container.lg" maxW="container.lg" h="full">
           <Flex h="full" justifyContent="space-between" alignItems="center">
-            <Heading>
-              <Box as="span" bgGradient="linear(to-r, yellow.700, yellow.800)" bgClip="text">
-                CH
-              </Box>
-              <Box as="span" bgGradient="linear(to-r, red.700, red.900)" bgClip="text">
-                RONO HACK
-              </Box>
-              <Box as="span" bgGradient="linear(to-r, red.900, black)" bgClip="text">
-                ER
-              </Box>
-            </Heading>
+            <Image src={logoUrl} h="12" />
+
             {user ? (
-              <Button onClick={onOpen} colorScheme="primary">
+              <Button
+                onClick={onOpen}
+                colorScheme="primary"
+                borderRadius="0"
+                border="2px"
+                borderColor="gray.400"
+              >
                 時を操る
               </Button>
             ) : (
               <HStack>
-                <Button onClick={onOpen} colorScheme="primary">
+                <Button
+                  onClick={onOpen}
+                  colorScheme="primary"
+                  borderRadius="0"
+                  border="2px"
+                  borderColor="gray.400"
+                >
                   時を操る
                 </Button>
-                <Button onClick={() => signInWithGoogle()} colorScheme="primary">
+                <Button
+                  onClick={() => signInWithGoogle()}
+                  colorScheme="primary"
+                  borderRadius="0"
+                  border="2px"
+                  borderColor="gray.400"
+                >
                   予定を取り込む
                 </Button>
               </HStack>

@@ -18,7 +18,14 @@ const Schedule = () => {
       <Box fontWeight="bold">{user?.email}</Box>
       <Flex justifyContent="space-between" alignItems="center">
         <Box fontWeight="bold">{format(new Date(), "MM月dd日")}の予定</Box>
-        <Button onClick={() => signOut(auth)} size="xs" colorScheme="primary">
+        <Button
+          onClick={() => signOut(auth)}
+          size="xs"
+          colorScheme="primary"
+          borderRadius="0"
+          border="2px"
+          borderColor="gray.400"
+        >
           解除
         </Button>
       </Flex>
@@ -73,7 +80,7 @@ export function AppClock() {
               size={300}
               value={value}
             />
-            <Box fontWeight="bold" fontSize="4xl">
+            <Box fontWeight="bold" fontSize="5xl" fontFamily="cursive">
               {format(value, "HH:mm")}
             </Box>
           </Stack>

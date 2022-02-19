@@ -57,7 +57,7 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent pb="2">
-        <ModalHeader>設定</ModalHeader>
+        <ModalHeader>時を操る</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <form onSubmit={onSubmit}>
@@ -85,7 +85,13 @@ export const SettingsModal: VFC<SettingsModalProps> = ({ isOpen, onClose }) => {
                   />
                 </FormControl>
               </Stack>
-              <Button colorScheme="primary" type="submit">
+              <Button
+                type="submit"
+                colorScheme="primary"
+                borderRadius="0"
+                border="2px"
+                borderColor="gray.400"
+              >
                 トリガー！
               </Button>
             </Stack>
