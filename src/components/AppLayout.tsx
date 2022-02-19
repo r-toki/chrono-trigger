@@ -1,3 +1,4 @@
+// @ts-nocheck
 import {
   Box,
   Button,
@@ -50,15 +51,15 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
             timeMin: zonedTimeToUtc(startOfToday(), "Asia/Tokyo").toISOString(),
             timeMax: zonedTimeToUtc(endOfToday(), "Asia/Tokyo").toISOString(),
           })
-          .then((res) => {
+          .then((res: any) => {
             setCalendarEvents(
-              res.result.items.map((e) => ({
+              res.result.items.map((e: any) => ({
                 summary: e.summary,
                 startTime: new Date(e.start.dateTime),
               }))
             );
           })
-          .catch((e) => console.log(e));
+          .catch((e: any) => console.log(e));
       });
     });
   };
@@ -120,6 +121,10 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
                 <Button onClick={onOpen} colorScheme="primary">
                   時を操る
                 </Button>
+                <Button onClick={() => signInWithGoogle()} colorScheme="primary">
+                  Login
+                </Button>
+
                 <Button onClick={() => getEvents()} colorScheme="primary">
                   予定を取り込む
                 </Button>
