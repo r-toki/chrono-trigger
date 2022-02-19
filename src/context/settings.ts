@@ -12,7 +12,7 @@ const useSettingsContainer = () => {
   const [value, set] = useLocalStorage<State>("chrono-trigger:settings", {
     startAtHour: "9",
     endAtHour: "18",
-    hoursToGenerate: "1",
+    hoursToGenerate: "0",
   });
 
   return { settings: value!, setSetting: set as Dispatch<SetStateAction<State>> };
