@@ -97,3 +97,39 @@ describe("start: 15:00, end: 22:00, generate: 1:00", () => {
     expect(subMinutes(chronoDate, MyDate.of("24:00"))).toBe(0);
   });
 });
+
+describe("start: 00:00, end: 24:00, generate: 23:00", () => {
+  const startDate = MyDate.of("00:00");
+  const endDate = MyDate.of("24:00");
+  const hoursToGenerate = 23;
+
+  it("current: 00:00 ならば、chrono: 00:00", () => {
+    const chronoDate = chrono(MyDate.of("00:00"), { startDate, endDate, hoursToGenerate });
+
+    expect(subMinutes(chronoDate, MyDate.of("00:00"))).toBe(0);
+  });
+
+  it("current: 00:30 ならば、chrono: 12:00", () => {
+    const chronoDate = chrono(MyDate.of("00:30"), { startDate, endDate, hoursToGenerate });
+
+    expect(subMinutes(chronoDate, MyDate.of("12:00"))).toBe(0);
+  });
+
+  it("current: 01:00 ならば、chrono: 24:00", () => {
+    const chronoDate = chrono(MyDate.of("01:00"), { startDate, endDate, hoursToGenerate });
+
+    expect(subMinutes(chronoDate, MyDate.of("24:00"))).toBe(0);
+  });
+
+  it("current: 02:00 ならば、chrono: 24:00", () => {
+    const chronoDate = chrono(MyDate.of("02:00"), { startDate, endDate, hoursToGenerate });
+
+    expect(subMinutes(chronoDate, MyDate.of("24:00"))).toBe(0);
+  });
+
+  it("current: 24:00 ならば、chrono: 24:00", () => {
+    const chronoDate = chrono(MyDate.of("24:00"), { startDate, endDate, hoursToGenerate });
+
+    expect(subMinutes(chronoDate, MyDate.of("24:00"))).toBe(0);
+  });
+});
