@@ -1,4 +1,12 @@
-import { addDays, startOfDay } from "date-fns";
+import {
+  addDays,
+  endOfDay,
+  format,
+  isSameDay,
+  millisecondsToHours,
+  millisecondsToMinutes,
+  startOfDay,
+} from "date-fns";
 
 const MS_PER_HOUR = 3_600 * 1_000;
 
@@ -22,9 +30,10 @@ export const chrono = (
   const chronoEndTime = endDate.getTime();
   const chronoTodayEndTime = startOfDay(addDays(currentDate, 1)).getTime();
 
-  if (realCurrentTime < realStartTime) {
+  if (currentDate.getTime() === startOfDay(currentDate).getTime()) return currentDate;
+  if (realCurrentTime <= realStartTime) {
     return currentDate;
-  } else if (realCurrentTime < realEndTime) {
+  } else if (realCurrentTime <= realEndTime) {
     const realTimeFromStart = realCurrentTime - realStartTime;
     const chronoTimeFromStart =
       (realTimeFromStart * (chronoEndTime - chronoStartTime)) / (realEndTime - realStartTime);
