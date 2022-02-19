@@ -9,12 +9,14 @@ import {
   Stack,
   useDisclosure,
 } from "@chakra-ui/react";
-import { ReactNode, useEffect, useState, VFC } from "react";
+import { ReactNode, useEffect, useState, VFC, useMemo } from "react";
 import { SettingsModal } from "./SettingsModal";
 import { auth } from "../firebaseApp";
 import { useSignInWithGoogle, useAuthState } from "react-firebase-hooks/auth";
-import { startOfToday, endOfToday, format } from "date-fns";
+import { startOfToday, endOfToday, format, addHours } from "date-fns";
 import { zonedTimeToUtc } from "date-fns-tz";
+import { chrono } from "../utils/chrono";
+import { useSettings } from "../context/settings";
 
 type AppLayoutProps = {
   children: ReactNode;
@@ -49,7 +51,6 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
             timeMax: zonedTimeToUtc(endOfToday(), "Asia/Tokyo").toISOString(),
           })
           .then((res) => {
-            console.log(res.result.items);
             setCalendarEvents(
               res.result.items.map((e) => ({
                 summary: e.summary,
@@ -62,7 +63,6 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
     });
   };
   const initEvent = () => {
-    console.log(import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY);
     window.gapi.client.init({
       clientId: import.meta.env.VITE_GOOGLE_CALENDAR_CLIENT_ID,
       apiKey: import.meta.env.VITE_GOOGLE_CALENDAR_API_KEY,
@@ -76,6 +76,19 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
     document.body.appendChild(script);
     window.setTimeout(() => initEvent(), 500);
   }, []);
+  const { settings } = useSettings();
+  const startDate = useMemo(
+    () => addHours(startOfToday(), Number(settings.startAtHour)),
+    [settings.startAtHour]
+  );
+  const endDate = useMemo(
+    () => addHours(startOfToday(), Number(settings.endAtHour)),
+    [settings.endAtHour]
+  );
+  const hoursToGenerate = useMemo(
+    () => Number(settings.hoursToGenerate),
+    [settings.hoursToGenerate]
+  );
 
   return (
     <Stack h="100vh">
@@ -121,7 +134,15 @@ export const AppLayout: VFC<AppLayoutProps> = ({ children }) => {
           {calendarEvents.map((item) => {
             return (
               <div>
-                {item.summary}:{format(item.startTime, "yyyy/MM/dd HH:mm")}
+                {item.summary}:
+                {format(
+                  chrono(item.startTime, {
+                    startDate,
+                    endDate,
+                    hoursToGenerate,
+                  }),
+                  "yyyy/MM/dd HH:mm"
+                )}
               </div>
             );
           })}
